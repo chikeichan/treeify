@@ -1,0 +1,40 @@
+var svgWidth = 500;
+var svgHeight = 750;
+
+var svg = d3.select('body').append('svg')
+						.attr('class','tree')
+						.attr('width',svgWidth)
+						.attr('height',svgHeight)
+
+svg.selectAll('rect').data([{width:50,height:200,level:1}])
+	.enter().append('rect')
+		.attr('x',function(d){return svgWidth/2-d.width/2})
+		.attr('y',function(d){return svgHeight-d.height*d.level})
+		.attr('height',function(d){return d.height})
+		.attr('width',function(d){return d.width})
+		.attr('fill','black')
+		//.attr('transform','rotate(-45 250 750)')
+
+d3.select('svg').append('circle')
+	.attr('cx',250)
+	.attr('cy',750)
+	.attr('r','10')
+	.attr('fill','red')
+
+svg.selectAll('rect').data([{},{width:50,height:200,level:2,ox:250,oy:550}])
+	.enter().append('rect')
+		.attr('x',function(d){return svgWidth/2-d.width/2})
+		.attr('y',function(d){return svgHeight-d.height*d.level})
+		.attr('height',function(d){return d.height})
+		.attr('width',function(d){return d.width})
+		.attr('fill','red')
+		.attr('transform','rotate(-25 250 550)')
+
+svg.selectAll('rect').data([{},{},{width:50,height:200,level:3}])
+	.enter().append('rect')
+		.attr('x',function(d){return 165.47})
+		.attr('y',function(d){return 151.76})
+		.attr('height',function(d){return d.height})
+		.attr('width',function(d){return d.width})
+		.attr('fill','green')
+		//.attr('transform','rotate(-25  550)')

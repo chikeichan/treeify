@@ -1,3 +1,8 @@
 body {
 	background-color: grey;
+	text-align: center;
+}
+
+svg {
+	background-color: white;
 }
