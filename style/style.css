@@ -1,8 +1,10 @@
 body {
-	background-color: grey;
+	background-color: black;
 	text-align: center;
+	color: white;
 }
 
 svg {
 	background-color: white;
+	opacity: 0.8;
 }

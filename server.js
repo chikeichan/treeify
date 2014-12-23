@@ -17,21 +17,22 @@ var dom;
 var extractedDom;
 
 var request = require("request");
-request({
-  uri: "http://www.facebook.com",
-}, function(error, response, body) {
-  extractedDom = response.body;
-});
-
-setTimeout(function(){
-	console.log(extractedDom);
-},2000);
 
 //
 app.get('/api/url', function(req,res){
 	res.send(extractedDom);
 	
 });
+
+app.post('/api/url',function(req,res){
+	if(!!req.body.query){
+		request({
+		  uri: req.body.query,
+		}, function(error, response, body) {
+		  extractedDom = response.body;
+		});
+	}
+})
 
 
 

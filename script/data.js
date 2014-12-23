@@ -2,17 +2,19 @@
 var Tree = function(x, y, width, color){
 	var tree = {};
 	tree.root = {'x': x, 'y': y};
-	tree.height = findRandom(100,25);
+	tree.height = findRandom(75,25);
 	tree.width = width;
 	tree.color = color; 
 	tree.angle = findRandom(65,-65); // Denominated in degrees.
 	tree.isLeaf = true;
 	tree.children = [];
 
-	tree.insert = function(){
+	tree.insert = function(color){
 		//Create new root (x,y), 
+		var newAngle = this.angle + findRandom(30,-30)
 		var newRoot = this.nextRoot();
 		var newTree = Tree(newRoot.x, newRoot.y, this.width/1.2, this.color);
+		newTree.angle = newAngle;
 		this.children.push(newTree);
 		return newTree;
 
@@ -42,16 +44,41 @@ var findRandom = function(max,min){
 	return Math.floor(Math.random()*(max-min))+ min;
 }
 
+var getRandomColor = function(){
+	var r = findRandom(255,0);
+	var g = findRandom(255,0);
+	var b = findRandom(255,0);
+	var leafColor = 'rgb('+r+','+g+','+b+')'
+	return leafColor;
+}
+
+
 var test;
 
-$.get('/api/url',function(data){
-	test = data;
+$('input').on('keydown',function(e){
+	var query = $(this).val();
+	if(e.keyCode === 13){
+		$.post('/api/url',{query:query})
+		setTimeout(function(){
+			$.get('/api/url',function(data){
+				test = data;
+			})
+			parsedDOM = $.parseHTML(test);	
+			
+
+
+
+
+
+
+		})
+
+
+
+	}
 })
 
-var parsedDOM;
-setTimeout(function(){
-	parsedDOM = $.parseHTML(test);	
-},5000)
+
 
 
 

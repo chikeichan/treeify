@@ -1,13 +1,27 @@
-var svgWidth = 500;
-var svgHeight = 750;
+var svgWidth = 1000;
+var svgHeight = 1000;
 var allTrees = [];
 
-var rootTree = Tree(svgWidth/2, svgHeight, 10, 'black');
+var rootTree = Tree(svgWidth/2, svgHeight, 5, 'black');
 rootTree.angle = 0;       
 allTrees.push(rootTree);
 
 
-setTimeout(function(){
+var test;
+
+$('input').on('keydown',function(e){
+	var query = $(this).val();
+	if(e.keyCode === 13){
+		d3.select('svg').remove();
+
+
+
+		$.post('/api/url',{query:query})
+		setTimeout(function(){
+			$.get('/api/url',function(data){
+				test = data;
+			})
+			parsedDOM = $.parseHTML(test);	
 //want to call insert on rootTree 1ce for every element in ParsedDOM
 //after inserting, put element in the treeQueue
 //
@@ -45,9 +59,14 @@ var svg = d3.select('body').append('svg')
 						.attr('class','tree')
 						.attr('width',svgWidth)
 						.attr('height',svgHeight)
+						.style('background-color',getRandomColor)
 
 svg.selectAll('rect').data(allTrees)
 	.enter().append('rect')
+		.attr('x',svgWidth/2)
+		.attr('y',svgHeight)
+		.attr('height',0)
+	  .transition().duration(5000).delay(200)
 		.attr('x',function(d){return d.root.x - d.width/2})
 		.attr('y',function(d){return d.root.y-d.height})
 		.attr('height',function(d){return d.height})
@@ -55,12 +74,16 @@ svg.selectAll('rect').data(allTrees)
 		.attr('fill', function(d){return d.color})
 		.attr('transform',function(d){return 'rotate(' + d.angle + ' ' + d.root.x + ' ' + d.root.y + ')'})
 
+
+
 svg.selectAll('circle').data(leafCoordinates)
 	.enter().append('circle')
+	.attr('r',0)
+  .transition().duration(5000).delay(5200)
 	.attr('cx',function(d){return d.x})
 	.attr('cy',function(d){return d.y})
-	.attr('r','5')
-	.attr('fill','red')
+	.attr('r',function(d){return findRandom(10,2);})
+	.attr('fill',getRandomColor())
 
 
 //console.dir(allTrees);
@@ -90,4 +113,7 @@ svg.selectAll('rect').data([{},{},{width:50,height:200,level:3}])
 		.attr('fill','green')
 		//.attr('transform','rotate(-25  550)')
 */
-},6000)
+
+		})
+	}
+})
