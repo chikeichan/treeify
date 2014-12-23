@@ -43,40 +43,29 @@ var Tree = function(x, y, width, color){
 var findRandom = function(max,min){
 	return Math.floor(Math.random()*(max-min))+ min;
 }
+var getOppoColor = function(c1,c2){
+	if(c1>=128){
+		return c1-c2;
+	} else {
+		return c1+c2;
+	}
+}
 
 var getRandomColor = function(){
 	var r = findRandom(255,0);
 	var g = findRandom(255,0);
 	var b = findRandom(255,0);
+	var r2 = getOppoColor(r,findRandom(128,100));
+	var g2 = getOppoColor(g,findRandom(128,100));
+	var b2 = getOppoColor(b,findRandom(128,100));
+
+
+	var bgColor = 'rgb('+r2+','+g2+','+b2+')'
 	var leafColor = 'rgb('+r+','+g+','+b+')'
-	return leafColor;
+	return {bgColor: bgColor, leafColor: leafColor}
 }
 
 
-var test;
-
-$('input').on('keydown',function(e){
-	var query = $(this).val();
-	if(e.keyCode === 13){
-		$.post('/api/url',{query:query})
-		setTimeout(function(){
-			$.get('/api/url',function(data){
-				test = data;
-			})
-			parsedDOM = $.parseHTML(test);	
-			
-
-
-
-
-
-
-		})
-
-
-
-	}
-})
 
 
 

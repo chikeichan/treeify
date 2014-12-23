@@ -57,13 +57,13 @@ console.log(leafCoordinates);
 //
 
 
-
+var color = getRandomColor();
 
 var svg = d3.select('body').append('svg')
 						.attr('class','tree')
 						.attr('width',svgWidth)
 						.attr('height',svgHeight)
-						.style('background-color',getRandomColor)
+						.style('background-color',color.bgColor)
 
 svg.selectAll('rect').data(allTrees)
 	.enter().append('rect')
@@ -86,8 +86,8 @@ svg.selectAll('circle').data(leafCoordinates)
   .transition().duration(5000).delay(5200)
 	.attr('cx',function(d){return d.x})
 	.attr('cy',function(d){return d.y})
-	.attr('r',function(d){return findRandom(10,2);})
-	.attr('fill',getRandomColor())
+	.attr('r',function(d){return findRandom(5,1);})
+	.attr('fill',color.leafColor)
 
 
 //console.dir(allTrees);
