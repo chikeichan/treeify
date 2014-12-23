@@ -22,6 +22,10 @@ $('input').on('keydown',function(e){
 				test = data;
 			})
 			parsedDOM = $.parseHTML(test);	
+			rootTree = Tree(svgWidth/2, svgHeight, 5, 'black');
+			rootTree.angle = 0;       
+			allTrees = [];
+			allTrees.push(rootTree);
 //want to call insert on rootTree 1ce for every element in ParsedDOM
 //after inserting, put element in the treeQueue
 //

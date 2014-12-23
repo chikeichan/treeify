@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var db = mongoose.connect('mongodb://test:test@ds053130.mongolab.com:53130/angular-book')
 var Schema = mongoose.Schema;
 var bodyParser = require('body-parser');
-var _ = require('underscore');
 
 var app = express();
 app.use(bodyParser.json());

@@ -2,10 +2,10 @@
 var Tree = function(x, y, width, color){
 	var tree = {};
 	tree.root = {'x': x, 'y': y};
-	tree.height = findRandom(75,25);
+	tree.height = findRandom(50,10);
 	tree.width = width;
 	tree.color = color; 
-	tree.angle = findRandom(65,-65); // Denominated in degrees.
+	tree.angle = 0; // Denominated in degrees.
 	tree.isLeaf = true;
 	tree.children = [];
 
