@@ -2,7 +2,7 @@
 var Tree = function(x, y, width, color){
 	var tree = {};
 	tree.root = {'x': x, 'y': y};
-	tree.height = findRandom(200,100);
+	tree.height = findRandom(50,25);
 	tree.width = width;
 	tree.color = color; 
 	tree.angle = findRandom(55,-55); // Denominated in degrees.
@@ -12,7 +12,7 @@ var Tree = function(x, y, width, color){
 	tree.insert = function(){
 		//Create new root (x,y), 
 		var newRoot = nextRoot.call(this);
-		var newTree = Tree(newRoot.x, newRoot.y, this.width/2, this.color);
+		var newTree = Tree(newRoot.x, newRoot.y, this.width/1.5, this.color);
 		this.children.push(newTree);
 		return newTree;
 
@@ -41,4 +41,17 @@ var Tree = function(x, y, width, color){
 var findRandom = function(max,min){
 	return Math.floor(Math.random()*(max-min))+ min;
 }
+
+var test;
+
+$.get('/api/url',function(data){
+	test = data;
+})
+
+var parsedDOM;
+setTimeout(function(){
+	parsedDOM = $.parseHTML(test);	
+},5000)
+
+
 
