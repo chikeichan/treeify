@@ -2,17 +2,17 @@
 var Tree = function(x, y, width, color){
 	var tree = {};
 	tree.root = {'x': x, 'y': y};
-	tree.height = findRandom(50,25);
+	tree.height = findRandom(100,25);
 	tree.width = width;
 	tree.color = color; 
-	tree.angle = findRandom(55,-55); // Denominated in degrees.
+	tree.angle = findRandom(65,-65); // Denominated in degrees.
 	tree.isLeaf = true;
 	tree.children = [];
 
 	tree.insert = function(){
 		//Create new root (x,y), 
-		var newRoot = nextRoot.call(this);
-		var newTree = Tree(newRoot.x, newRoot.y, this.width/1.5, this.color);
+		var newRoot = this.nextRoot();
+		var newTree = Tree(newRoot.x, newRoot.y, this.width/1.2, this.color);
 		this.children.push(newTree);
 		return newTree;
 
@@ -21,7 +21,7 @@ var Tree = function(x, y, width, color){
 		//should return an array of all children ready for d3
 	};
 
-	var nextRoot = function(){
+	tree.nextRoot = function(){
 		//takes in the current Tree's x, y, and outputs an object with the next level's root
 		var radian = toRadian(this.angle);
 		newX = this.root.x + this.height * (Math.sin(radian));

@@ -2,38 +2,40 @@ var svgWidth = 500;
 var svgHeight = 750;
 var allTrees = [];
 
-var rootTree = Tree(svgWidth/2, svgHeight, 15, 'black');
+var rootTree = Tree(svgWidth/2, svgHeight, 10, 'black');
 rootTree.angle = 0;       
 allTrees.push(rootTree);
 
-var scrape = function(node,ctx){
-	//base case
-	// debugger;
-	allTrees.push(ctx.insert());
-	var newCTX = ctx.children[ctx.children.length-1];
-	if(node.childNodes.length !== 0){
-		for(var i = 0; i<node.childNodes.length; i++){
-			scrape(node.childNodes[i],newCTX);
-			//scrape(node.childNodes[i],ctx.children[i])
-		}
-	}
-}
+
 setTimeout(function(){
 //want to call insert on rootTree 1ce for every element in ParsedDOM
 //after inserting, put element in the treeQueue
 //
 
-var domQueue = [];
-var treeQueue = [rootTree];
-for(var j = 0; j<parsedDOM.length; j++){
-	scrape(parsedDOM[j],rootTree)
+var scrape = function(domNode,ctx){
+	allTrees.push(ctx.insert());
+	var childContext = ctx.children[ctx.children.length-1];
+	if (domNode.childNodes.length > 0){
+		childContext.isLeaf = false;
+		for (var i = 0 ; i < domNode.childNodes.length; i++){
+			scrape(domNode.childNodes[i], childContext);
+		}
+	}
+
 }
-console.log(allTrees);
-// while(domQueue.length!==0){
-// 	domQueue.push(domQueue[0])
-// }
 
-
+for (var i = 0 ; i < parsedDOM.length; i++){
+	scrape(parsedDOM[i], rootTree);
+	rootTree.isLeaf = false;
+}
+console.dir(allTrees);
+var leafCoordinates = [];
+_.each(allTrees,function(tree,index){
+	if(tree.isLeaf){
+		leafCoordinates.push(tree.nextRoot())
+	}
+})
+console.log(leafCoordinates);
 //
 
 
@@ -52,6 +54,13 @@ svg.selectAll('rect').data(allTrees)
 		.attr('width',function(d){return d.width})
 		.attr('fill', function(d){return d.color})
 		.attr('transform',function(d){return 'rotate(' + d.angle + ' ' + d.root.x + ' ' + d.root.y + ')'})
+
+svg.selectAll('circle').data(leafCoordinates)
+	.enter().append('circle')
+	.attr('cx',function(d){return d.x})
+	.attr('cy',function(d){return d.y})
+	.attr('r','5')
+	.attr('fill','red')
 
 
 //console.dir(allTrees);

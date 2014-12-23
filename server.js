@@ -18,7 +18,7 @@ var extractedDom;
 
 var request = require("request");
 request({
-  uri: "http://www.google.com",
+  uri: "http://www.facebook.com",
 }, function(error, response, body) {
   extractedDom = response.body;
 });
