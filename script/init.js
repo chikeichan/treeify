@@ -1,20 +1,23 @@
+//!!High level changes; Should break our methods into two sections: 
+//!(1)Draw-related functions that use the allTrees and leafCoordinates arrays.
+//!! (2) Traversal functions, that recursively scrape dom nodes, or create the tree. Our implementation does both at the same time.
+
 var svgWidth = $(document).width()*0.8;
 var svgHeight = svgWidth;
 var allTrees = [];
 
+//Instantiates the root. Only time Tree is called.
 var rootTree = Tree(svgWidth/2, svgHeight, svgWidth/200, 'black');
 rootTree.angle = 0;       
 allTrees.push(rootTree);
 
-
+//!!(not used anymore?)
 var test;
 
 $('input').on('keydown',function(e){
 	var query = $(this).val();
 	if(e.keyCode === 13){
 		d3.select('svg').remove();
-
-
 
 		$.post('/api/url',{query:query})
 		setTimeout(function(){
@@ -26,10 +29,16 @@ $('input').on('keydown',function(e){
 			rootTree.angle = 0;       
 			allTrees = [];
 			allTrees.push(rootTree);
+
+//Old commenting we can remove after the refactor:
 //want to call insert on rootTree 1ce for every element in ParsedDOM
 //after inserting, put element in the treeQueue
 //
 
+/**
+ * Refactor into "recurseNode"; 
+ * Note the calling function is below it
+ */
 var scrape = function(domNode,ctx){
 	allTrees.push(ctx.insert());
 	var childContext = ctx.children[ctx.children.length-1];
@@ -39,35 +48,34 @@ var scrape = function(domNode,ctx){
 			scrape(domNode.childNodes[i], childContext);
 		}
 	}
-
 }
-
+//Refactor into "callFirstLevelOfDOMNodes", and note that it creates the first children of the root tree
 for (var i = 0 ; i < parsedDOM.length; i++){
 	scrape(parsedDOM[i], rootTree);
 	rootTree.isLeaf = false;
 }
-console.dir(allTrees);
+
+//!! refactor into a "setUpLeaves" function
 var leafCoordinates = [];
 _.each(allTrees,function(tree,index){
 	if(tree.isLeaf){
 		leafCoordinates.push(tree.nextRoot())
 	}
 })
-console.log(leafCoordinates);
-//
-
-
+//!!refactor into an "assignColors" subroutine, possibly inside setUpLeaves;
 var color = getRandomColor();
 
 $('input#leafcolor').val(color.leafColor);
 $('input#bgcolor').val(color.bgColor);
 
+//!! refactor into a draw tree function; parts of this could move to data.js, in Tree.visualize();
+// Seems simpler to continue iterating over the arrays though, and deprecate visualize().
 var svg = d3.select('body').append('svg')
 						.attr('class','tree')
 						.attr('width',svgWidth)
 						.attr('height',svgHeight)
 						// .style('background-color',color.bgColor)
-						.style('background',color.bgColor)
+						.style('background',color.bgColor);
 
 svg.selectAll('rect').data(allTrees)
 	.enter().append('rect')
@@ -80,10 +88,11 @@ svg.selectAll('rect').data(allTrees)
 		.attr('height',function(d){return d.height})
 		.attr('width',function(d){return d.width})
 		.attr('fill', function(d){return d.color})
-		.attr('transform',function(d){return 'rotate(' + d.angle + ' ' + d.root.x + ' ' + d.root.y + ')'})
+		.attr('transform',function(d){return 'rotate(' + d.angle + ' ' + d.root.x + ' ' + d.root.y + ')'});
 
 
-
+//!! refactor into "drawNodes", "setUpLeaves" down, make it clear that these serve the same purpose:
+//painting on the circles that represent leaf nodes after the Tree is drawn
 svg.selectAll('circle').data(leafCoordinates)
 	.enter().append('circle')
 	.attr('r',0)
@@ -91,37 +100,13 @@ svg.selectAll('circle').data(leafCoordinates)
 	.attr('cx',function(d){return d.x})
 	.attr('cy',function(d){return d.y})
 	.attr('r',function(d){return findRandom(svgWidth/200,svgWidth/1000);})
-	.attr('fill',color.leafColor)
+	.attr('fill',color.leafColor);
+
+//!!deleted 30 lines of early tests appending leaves. practice note: old could should just be visible in old commits.
 
 
-//console.dir(allTrees);
-/*
-d3.select('svg').append('circle')
-	.attr('cx',250)
-	.attr('cy',750)
-	.attr('r','10')
-	.attr('fill','red')
-*/
-/*
-svg.selectAll('rect').data([{},{width:50,height:200,level:2,ox:250,oy:550}])
-	.enter().append('rect')
-		.attr('x',function(d){return svgWidth/2-d.width/2})
-		.attr('y',function(d){return svgHeight-d.height*d.level})
-		.attr('height',function(d){return d.height})
-		.attr('width',function(d){return d.width})
-		.attr('fill','red')
-		.attr('transform','rotate(-25 250 550)')
-
-svg.selectAll('rect').data([{},{},{width:50,height:200,level:3}])
-	.enter().append('rect')
-		.attr('x',function(d){return 165.47})
-		.attr('y',function(d){return 151.76})
-		.attr('height',function(d){return d.height})
-		.attr('width',function(d){return d.width})
-		.attr('fill','green')
-		//.attr('transform','rotate(-25  550)')
-*/
-
+//!! adding a call to addListeners here, newly defined (but empty) in data.js
+addListeners();
 		})
 	}
 })

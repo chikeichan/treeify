@@ -1,3 +1,4 @@
+//(!!) Leave refactoring this file until a final version is ready to be hosted on azure. Still a work in progress.
 var http = require('http');
 var express = require('express');
 var path = require('path');
