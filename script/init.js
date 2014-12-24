@@ -1,8 +1,8 @@
-var svgWidth = 1000;
-var svgHeight = 1000;
+var svgWidth = $(document).width()*0.8;
+var svgHeight = svgWidth;
 var allTrees = [];
 
-var rootTree = Tree(svgWidth/2, svgHeight, 5, 'black');
+var rootTree = Tree(svgWidth/2, svgHeight, svgWidth/200, 'black');
 rootTree.angle = 0;       
 allTrees.push(rootTree);
 
@@ -22,7 +22,7 @@ $('input').on('keydown',function(e){
 				test = data;
 			})
 			parsedDOM = $.parseHTML(test);	
-			rootTree = Tree(svgWidth/2, svgHeight, 5, 'black');
+			rootTree = Tree(svgWidth/2, svgHeight, svgWidth/200, 'black');
 			rootTree.angle = 0;       
 			allTrees = [];
 			allTrees.push(rootTree);
@@ -59,18 +59,22 @@ console.log(leafCoordinates);
 
 var color = getRandomColor();
 
+$('input#leafcolor').val(color.leafColor);
+$('input#bgcolor').val(color.bgColor);
+
 var svg = d3.select('body').append('svg')
 						.attr('class','tree')
 						.attr('width',svgWidth)
 						.attr('height',svgHeight)
-						.style('background-color',color.bgColor)
+						// .style('background-color',color.bgColor)
+						.style('background',color.bgColor)
 
 svg.selectAll('rect').data(allTrees)
 	.enter().append('rect')
 		.attr('x',svgWidth/2)
 		.attr('y',svgHeight)
 		.attr('height',0)
-	  .transition().duration(5000).delay(200)
+	.transition().duration(5000).delay(i=i+0)
 		.attr('x',function(d){return d.root.x - d.width/2})
 		.attr('y',function(d){return d.root.y-d.height})
 		.attr('height',function(d){return d.height})
@@ -83,10 +87,10 @@ svg.selectAll('rect').data(allTrees)
 svg.selectAll('circle').data(leafCoordinates)
 	.enter().append('circle')
 	.attr('r',0)
-  .transition().duration(5000).delay(5200)
+.transition().duration(5000).delay(5000)
 	.attr('cx',function(d){return d.x})
 	.attr('cy',function(d){return d.y})
-	.attr('r',function(d){return findRandom(5,1);})
+	.attr('r',function(d){return findRandom(svgWidth/200,svgWidth/1000);})
 	.attr('fill',color.leafColor)
 
 

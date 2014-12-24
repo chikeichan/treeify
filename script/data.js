@@ -2,7 +2,7 @@
 var Tree = function(x, y, width, color){
 	var tree = {};
 	tree.root = {'x': x, 'y': y};
-	tree.height = findRandom(50,10);
+	tree.height = findRandom(svgWidth*0.05,svgWidth*0.01);
 	tree.width = width;
 	tree.color = color; 
 	tree.angle = 0; // Denominated in degrees.
@@ -62,11 +62,29 @@ var getRandomColor = function(){
 
 	var bgColor = 'rgb('+r2+','+g2+','+b2+')'
 	var leafColor = 'rgb('+r+','+g+','+b+')'
-	return {bgColor: bgColor, leafColor: leafColor}
+
+	var gradient = 'linear-gradient(to bottom right, white -15%, '+bgColor+' 80%, black 115%)';
+
+	return {bgColor: bgColor, leafColor: leafColor,gradient: gradient}
 }
 
 
+$('input#bgcolor').on('change',function(e){
+	$('svg').css('background-color',$(this).val())
+})
 
+$('input#leafcolor').on('change',function(e){
+	$('circle').attr('fill',$(this).val())
+})
+
+$('input#branchcolor').on('change',function(e){
+	$('rect').attr('fill',$(this).val())
+})
+
+$('input#size').on('blur',function(e){
+	svgWidth = $(this).val();
+	svgHeight = $(this).val();
+})
 
 
 
