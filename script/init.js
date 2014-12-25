@@ -1,5 +1,5 @@
-var svgWidth;
-var svgHeight;
+var svgWidth = $(document).width() > $(document).height() ?  $(document).height()*0.8 : $(document).width()*0.8;;
+var svgHeight = svgWidth;
 var allTrees = [];
 var leafCoordinates;
 var rootTree;
@@ -10,9 +10,6 @@ $('input').on('keydown',function(e){
 	if(e.keyCode === 13){
 		d3.selectAll('svg').remove();
 		$('body').append('<div id="loading">Loading...</div>')
-
-		svgWidth = $(document).width() > $(document).height() ?  $(document).height()*0.8 : $(document).width()*0.8;
-		svgHeight = svgWidth;
 
 		$.post('/api/url',{query:query},function(data){
 			parsedDOM = $.parseHTML(data);	
