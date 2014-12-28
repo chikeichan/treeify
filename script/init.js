@@ -1,11 +1,11 @@
-var svgWidth = $(document).width() > $(document).height() ?  $(document).height()*0.8 : $(document).width()*0.8;;
+var svgWidth = $(document).width() > $(document).height() ?  $(document).height()*0.7 : $(document).width()*0.8;;
 var svgHeight = svgWidth;
 var allTrees = [];
 var leafCoordinates;
 var rootTree;
 
 //Draw tree when input detected.
-$('input').on('keydown',function(e){
+$('input#url').on('keydown',function(e){
 	var query = $(this).val();
 	if(e.keyCode === 13){
 		d3.selectAll('svg').remove();
