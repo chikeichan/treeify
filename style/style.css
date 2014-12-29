@@ -21,7 +21,7 @@ input {
 }
 svg {
 	border: 8px solid rgb(29, 29, 29);
-	box-shadow: 0px 32px 92px black;
+	box-shadow: 0px 3px 12px black;
 }
 div#head {
 height: 40px;
@@ -40,4 +40,13 @@ input#size {
 div#loading{
 	color: black;
 	font-size: 30px;
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+	left:0;
+	right: 0;
+	color: black;
+	font-size: 12px;
 }

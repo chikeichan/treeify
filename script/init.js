@@ -69,8 +69,7 @@ var assignLeaves = function(){
 var drawTree = function(allTrees, leafCoordinates){
 	//Uses function in data to save a color object.
 	var color = getRandomColor();
-	$('input#leafcolor').val(color.leafColor);
-	$('input#bgcolor').val(color.bgColor);
+	$('input#size').val(svgWidth)
 
 	//Adding svg canvas.
 	var svg = d3.select('body').append('svg')
