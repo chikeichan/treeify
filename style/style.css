@@ -43,10 +43,8 @@ div#loading{
 }
 
 footer {
-	position: fixed;
-	bottom: 0;
-	left:0;
-	right: 0;
+	position: relative;
 	color: black;
 	font-size: 12px;
+	margin: 20px;
 }

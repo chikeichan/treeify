@@ -9,7 +9,7 @@ $('input#url').on('keydown',function(e){
 	var query = $(this).val();
 	if(e.keyCode === 13){
 		d3.selectAll('svg').remove();
-		$('body').append('<div id="loading">Loading...</div>')
+		$('div#main').append('<div id="loading">Loading...</div>')
 
 		$.post('/api/url',{query:query},function(data){
 			parsedDOM = $.parseHTML(data);	
@@ -72,7 +72,7 @@ var drawTree = function(allTrees, leafCoordinates){
 	$('input#size').val(svgWidth)
 
 	//Adding svg canvas.
-	var svg = d3.select('body').append('svg')
+	var svg = d3.select('div#main').append('svg')
 							.attr('class','tree')
 							.attr('width',svgWidth)
 							.attr('height',svgHeight)
