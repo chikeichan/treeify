@@ -10,7 +10,25 @@ $('input#url').on('keydown',function(e){
 	if(e.keyCode === 13){
 		d3.selectAll('svg').remove();
 		$('div#main').append('<div id="loading">Loading...</div>')
+		fetch(query).then(response => response.text()).then(data => {
+		parsedDOM = $.parseHTML(data);	
+			rootTree = Tree(svgWidth/2, svgHeight, svgWidth/200, 'black');
+			rootTree.angle = 0;       
+			allTrees = [];
+			allTrees.push(rootTree);
+			$('div#loading').remove()
 
+			//Iterates first level of DOM nodes, calling scrape() on all of those nodes' children.
+			for (var i = 0 ; i < parsedDOM.length; i++){
+				scrape(parsedDOM[i], rootTree);
+				rootTree.isLeaf = false;
+			}
+
+			assignLeaves();
+			drawTree( allTrees, leafCoordinates);
+			addListeners();
+		});
+		/*
 		$.post('/api/url',{query:query},function(data){
 			parsedDOM = $.parseHTML(data);	
 			rootTree = Tree(svgWidth/2, svgHeight, svgWidth/200, 'black');
@@ -29,6 +47,7 @@ $('input#url').on('keydown',function(e){
 			drawTree( allTrees, leafCoordinates);
 			addListeners();
 		});
+		*/
 	}
 })
 	/**
