@@ -1,13 +1,9 @@
 {
-  "name": "Treeify",
+  "name": "@fusionstrings/treeify",
   "description": "Visualizing DOM Tree using D3",
   "version": "0.0.1",
-  "private": true,
-  "dependencies": {
-    "node": "*",
-    "express": "*",
-    "request": "*",
-    "path": "*",
-    "body-parser": "*"
-  }
+  "devDependencies": {
+    "@jspm/generator": "^1.0.2"
+  },
+  "type": "module"
 }
